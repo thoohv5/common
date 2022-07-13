@@ -5,8 +5,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/thoohv5/common/log"
-
 	"github.com/thoohv5/common/encoding"
 )
 
@@ -23,6 +21,7 @@ type options struct {
 	sources  []Source
 	decoder  Decoder
 	resolver Resolver
+	logger   ILogger
 }
 
 // WithSource with config source.
@@ -51,9 +50,10 @@ func WithResolver(r Resolver) Option {
 }
 
 // WithLogger with config logger.
-// Deprecated: use global logger instead.
-func WithLogger(l log.Logger) Option {
-	return func(o *options) {}
+func WithLogger(logger ILogger) Option {
+	return func(o *options) {
+		o.logger = logger
+	}
 }
 
 // defaultDecoder decode config from source KeyValue

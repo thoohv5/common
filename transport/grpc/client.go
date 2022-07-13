@@ -5,8 +5,6 @@ import (
 	"crypto/tls"
 	"time"
 
-	"github.com/thoohv5/common/log"
-
 	"github.com/thoohv5/common/middleware"
 	"github.com/thoohv5/common/transport"
 
@@ -65,9 +63,10 @@ func WithOptions(opts ...grpc.DialOption) ClientOption {
 }
 
 // WithLogger with logger
-// Deprecated: use global logger instead.
-func WithLogger(log log.Logger) ClientOption {
-	return func(o *clientOptions) {}
+func WithLogger(logger ILogger) ClientOption {
+	return func(o *clientOptions) {
+		o.logger = logger
+	}
 }
 
 // clientOptions is gRPC Client
@@ -78,6 +77,7 @@ type clientOptions struct {
 	middleware []middleware.Middleware
 	ints       []grpc.UnaryClientInterceptor
 	grpcOpts   []grpc.DialOption
+	logger     ILogger
 }
 
 // Dial returns a GRPC connection.
@@ -93,6 +93,7 @@ func DialInsecure(ctx context.Context, opts ...ClientOption) (*grpc.ClientConn, 
 func dial(ctx context.Context, insecure bool, opts ...ClientOption) (*grpc.ClientConn, error) {
 	options := clientOptions{
 		timeout: 2000 * time.Millisecond,
+		logger:  NewDefaultLogger(),
 	}
 	for _, o := range opts {
 		o(&options)

@@ -18,6 +18,7 @@ import (
 
 // AppInfo is application context value.
 type AppInfo interface {
+	Name() string
 	Version() string
 	Metadata() map[string]string
 	Endpoint() []string
@@ -65,6 +66,9 @@ func New(opts ...Option) *App {
 		opts:   o,
 	}
 }
+
+// Name returns app name.
+func (a *App) Name() string { return a.opts.name }
 
 // Version returns app version.
 func (a *App) Version() string { return a.opts.version }

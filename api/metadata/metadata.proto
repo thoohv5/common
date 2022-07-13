@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package api;
+package api.metadata;
 
 import "google/protobuf/descriptor.proto";
 import "google/api/annotations.proto";
 
-option go_package = "github.com/thoohv5/common/api/proto/api;metadata";
+option go_package = "github.com/thoohv5/common/api/metadata;metadata";
 
 
 // Metadata is api definition metadata service.

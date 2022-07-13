@@ -48,6 +48,7 @@ func New(opts ...Option) Config {
 	o := options{
 		decoder:  defaultDecoder,
 		resolver: defaultResolver,
+		logger:   NewDefaultLogger(),
 	}
 	for _, opt := range opts {
 		opt(&o)
@@ -67,15 +68,15 @@ func (c *config) watch(w Watcher) {
 		}
 		if err != nil {
 			time.Sleep(time.Second)
-			// log.Errorf("failed to watch next config: %v", err)
+			c.opts.logger.Errorf("failed to watch next config: %v", err)
 			continue
 		}
 		if err := c.reader.Merge(kvs...); err != nil {
-			// log.Errorf("failed to merge next config: %v", err)
+			c.opts.logger.Errorf("failed to merge next config: %v", err)
 			continue
 		}
 		if err := c.reader.Resolve(); err != nil {
-			// log.Errorf("failed to resolve next config: %v", err)
+			c.opts.logger.Errorf("failed to resolve next config: %v", err)
 			continue
 		}
 		c.cached.Range(func(key, value interface{}) bool {
@@ -98,23 +99,23 @@ func (c *config) Load() error {
 		if err != nil {
 			return err
 		}
-		// for _, v := range kvs {
-		// log.Debugf("config loaded: %s format: %s", v.Key, v.Format)
-		// }
+		for _, v := range kvs {
+			c.opts.logger.Debugf("config loaded: %s format: %s", v.Key, v.Format)
+		}
 		if err = c.reader.Merge(kvs...); err != nil {
 			// log.Errorf("failed to merge config source: %v", err)
 			return err
 		}
 		w, err := src.Watch()
 		if err != nil {
-			// log.Errorf("failed to watch config source: %v", err)
+			c.opts.logger.Errorf("failed to watch config source: %v", err)
 			return err
 		}
 		c.watchers = append(c.watchers, w)
 		go c.watch(w)
 	}
 	if err := c.reader.Resolve(); err != nil {
-		// log.Errorf("failed to resolve config source: %v", err)
+		c.opts.logger.Errorf("failed to resolve config source: %v", err)
 		return err
 	}
 	return nil

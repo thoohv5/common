@@ -13,7 +13,6 @@ import (
 
 	"github.com/thoohv5/common/util/host"
 
-	"github.com/thoohv5/common/log"
 	"github.com/thoohv5/common/middleware"
 
 	"github.com/thoohv5/common/transport"
@@ -51,9 +50,10 @@ func Timeout(timeout time.Duration) ServerOption {
 }
 
 // Logger with server logger.
-// Deprecated: use global logger instead.
-func Logger(logger log.Logger) ServerOption {
-	return func(s *Server) {}
+func Logger(logger ILogger) ServerOption {
+	return func(s *Server) {
+		s.logger = logger
+	}
 }
 
 // Middleware with service middleware option.
@@ -131,6 +131,7 @@ type Server struct {
 	ene         EncodeErrorFunc
 	strictSlash bool
 	router      *mux.Router
+	logger      ILogger
 }
 
 // NewServer creates an HTTP server by options.
@@ -143,6 +144,7 @@ func NewServer(opts ...ServerOption) *Server {
 		enc:         DefaultResponseEncoder,
 		ene:         DefaultErrorEncoder,
 		strictSlash: true,
+		logger:      NewDefaultLogger(),
 	}
 	for _, o := range opts {
 		o(srv)
@@ -243,6 +245,7 @@ func (s *Server) Start(ctx context.Context) error {
 	s.BaseContext = func(net.Listener) context.Context {
 		return ctx
 	}
+	s.logger.Infoc(ctx, "[HTTP] server listening on: %s", s.lis.Addr().String())
 	var err error
 	if s.tlsConf != nil {
 		err = s.ServeTLS(s.lis, "", "")
@@ -257,6 +260,7 @@ func (s *Server) Start(ctx context.Context) error {
 
 // Stop stop the HTTP server.
 func (s *Server) Stop(ctx context.Context) error {
+	s.logger.Infoc(ctx, "[HTTP] server stopping")
 	return s.Shutdown(ctx)
 }
 

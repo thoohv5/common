@@ -45,11 +45,11 @@ func (r *reader) Merge(kvs ...*KeyValue) error {
 	for _, kv := range kvs {
 		next := make(map[string]interface{})
 		if err := r.opts.decoder(kv, next); err != nil {
-			// log.Errorf("Failed to config decode error: %v key: %s value: %s", err, kv.Key, string(kv.Value))
+			r.opts.logger.Errorf("Failed to config decode error: %v key: %s value: %s", err, kv.Key, string(kv.Value))
 			return err
 		}
 		if err := mergo.Map(&merged, convertMap(next), mergo.WithOverride); err != nil {
-			// log.Errorf("Failed to config merge error: %v key: %s value: %s", err, kv.Key, string(kv.Value))
+			r.opts.logger.Errorf("Failed to config merge error: %v key: %s value: %s", err, kv.Key, string(kv.Value))
 			return err
 		}
 	}

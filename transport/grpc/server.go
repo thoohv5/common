@@ -9,11 +9,8 @@ import (
 
 	"github.com/thoohv5/common/util/endpoint"
 
-	apimd "github.com/thoohv5/common/api/metadata"
-
 	"github.com/thoohv5/common/util/host"
 
-	"github.com/thoohv5/common/log"
 	"github.com/thoohv5/common/middleware"
 
 	"github.com/thoohv5/common/transport"
@@ -22,6 +19,8 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
+
+	"github.com/thoohv5/common/api/metadata"
 
 	"google.golang.org/grpc/reflection"
 )
@@ -56,9 +55,10 @@ func Timeout(timeout time.Duration) ServerOption {
 }
 
 // Logger with server logger.
-// Deprecated: use global logger instead.
-func Logger(logger log.Logger) ServerOption {
-	return func(s *Server) {}
+func Logger(logger ILogger) ServerOption {
+	return func(s *Server) {
+		s.logger = logger
+	}
 }
 
 // Middleware with server middleware.
@@ -119,7 +119,8 @@ type Server struct {
 	streamInts []grpc.StreamServerInterceptor
 	grpcOpts   []grpc.ServerOption
 	health     *health.Server
-	metadata   *apimd.Server
+	metadata   *metadata.Server
+	logger     ILogger
 }
 
 // NewServer creates a gRPC server by options.
@@ -130,6 +131,7 @@ func NewServer(opts ...ServerOption) *Server {
 		address: ":0",
 		timeout: 1 * time.Second,
 		health:  health.NewServer(),
+		logger:  NewDefaultLogger(),
 	}
 	for _, o := range opts {
 		o(srv)
@@ -157,12 +159,12 @@ func NewServer(opts ...ServerOption) *Server {
 		grpcOpts = append(grpcOpts, srv.grpcOpts...)
 	}
 	srv.Server = grpc.NewServer(grpcOpts...)
-	srv.metadata = apimd.NewServer(srv.Server)
+	srv.metadata = metadata.NewServer(srv.Server)
 	// listen and endpoint
 	srv.err = srv.listenAndEndpoint()
 	// internal register
 	grpc_health_v1.RegisterHealthServer(srv.Server, srv.health)
-	apimd.RegisterMetadataServer(srv.Server, srv.metadata)
+	metadata.RegisterMetadataServer(srv.Server, srv.metadata)
 	reflection.Register(srv.Server)
 	return srv
 }
@@ -183,6 +185,7 @@ func (s *Server) Start(ctx context.Context) error {
 		return s.err
 	}
 	s.baseCtx = ctx
+	s.logger.Infoc(ctx, "[gRPC] server listening on: %s", s.lis.Addr().String())
 	s.health.Resume()
 	return s.Serve(s.lis)
 }
@@ -191,6 +194,7 @@ func (s *Server) Start(ctx context.Context) error {
 func (s *Server) Stop(ctx context.Context) error {
 	s.health.Shutdown()
 	s.GracefulStop()
+	s.logger.Infoc(ctx, "[gRPC] server stopping")
 	return nil
 }
 

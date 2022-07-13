@@ -21,6 +21,7 @@ func TestReader_Merge(t *testing.T) {
 			return fmt.Errorf("unsupported key: %s format: %s", kv.Key, kv.Format)
 		},
 		resolver: defaultResolver,
+		logger:   NewDefaultLogger(),
 	}
 	r := newReader(opts)
 	err = r.Merge(&KeyValue{
