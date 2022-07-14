@@ -20,8 +20,6 @@ import (
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 
-	"github.com/thoohv5/common/api/metadata"
-
 	"google.golang.org/grpc/reflection"
 )
 
@@ -119,7 +117,6 @@ type Server struct {
 	streamInts []grpc.StreamServerInterceptor
 	grpcOpts   []grpc.ServerOption
 	health     *health.Server
-	metadata   *metadata.Server
 	logger     ILogger
 }
 
@@ -159,12 +156,10 @@ func NewServer(opts ...ServerOption) *Server {
 		grpcOpts = append(grpcOpts, srv.grpcOpts...)
 	}
 	srv.Server = grpc.NewServer(grpcOpts...)
-	srv.metadata = metadata.NewServer(srv.Server)
 	// listen and endpoint
 	srv.err = srv.listenAndEndpoint()
 	// internal register
 	grpc_health_v1.RegisterHealthServer(srv.Server, srv.health)
-	metadata.RegisterMetadataServer(srv.Server, srv.metadata)
 	reflection.Register(srv.Server)
 	return srv
 }

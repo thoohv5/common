@@ -20,7 +20,7 @@ type defaultLogger struct {
 
 func NewDefaultLogger() ILogger {
 	return &defaultLogger{
-		Logger: log.New(os.Stdout, "config", log.Lshortfile|log.Lmicroseconds|log.Ldate),
+		Logger: log.New(os.Stdout, "http ", log.Lshortfile|log.Lmicroseconds|log.Ldate),
 	}
 }
 
