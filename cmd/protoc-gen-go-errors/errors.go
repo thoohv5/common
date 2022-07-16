@@ -44,7 +44,7 @@ func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.
 	}
 
 	g.P("// This is a compile-time assertion to ensure that this generated file")
-	g.P("// is compatible with the kratos package it is being compiled against.")
+	g.P("// is compatible with the common package it is being compiled against.")
 	g.P("const _ = ", errorsPackage.Ident("SupportPackageIsVersion1"))
 	g.P()
 	index := 0
