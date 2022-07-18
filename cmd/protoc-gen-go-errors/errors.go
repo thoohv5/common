@@ -21,7 +21,7 @@ const (
 
 var enCases = cases.Title(language.AmericanEnglish, cases.NoLower)
 
-// generateFile generates a _errors.pb.go file containing kratos errors definitions.
+// generateFile generates a _errors.pb.go file containing common errors definitions.
 func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
 	if len(file.Enums) == 0 {
 		return nil
@@ -37,7 +37,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 	return g
 }
 
-// generateFileContent generates the kratos errors definitions, excluding the package statement.
+// generateFileContent generates the common errors definitions, excluding the package statement.
 func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile) {
 	if len(file.Enums) == 0 {
 		return

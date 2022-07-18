@@ -28,11 +28,11 @@ func TestBindQuery(t *testing.T) {
 		{
 			name: "test",
 			args: args{
-				vars:   map[string][]string{"name": {"kratos"}, "url": {"https://go-kratos.dev/"}},
+				vars:   map[string][]string{"name": {"common"}, "url": {"https://go-common.dev/"}},
 				target: &p1,
 			},
 			wantErr: false,
-			want:    &TestBind{"kratos", "https://go-kratos.dev/"},
+			want:    &TestBind{"common", "https://go-common.dev/"},
 		},
 	}
 	for _, tt := range tests {
@@ -78,12 +78,12 @@ func TestBindForm(t *testing.T) {
 				req: &http.Request{
 					Method: "POST",
 					Header: http.Header{"Content-Type": {"application/x-www-form-urlencoded; param=value"}},
-					Body:   io.NopCloser(strings.NewReader("name=kratos&url=https://go-kratos.dev/")),
+					Body:   io.NopCloser(strings.NewReader("name=common&url=https://go-common.dev/")),
 				},
 				target: &p1,
 			},
 			wantErr: false,
-			want:    &TestBind{"kratos", "https://go-kratos.dev/"},
+			want:    &TestBind{"common", "https://go-common.dev/"},
 		},
 	}
 	for _, tt := range tests {

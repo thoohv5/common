@@ -14,20 +14,20 @@ import (
 func TestContextHeader(t *testing.T) {
 	w := wrapper{
 		router: nil,
-		req:    &http.Request{Header: map[string][]string{"name": {"kratos"}}},
+		req:    &http.Request{Header: map[string][]string{"name": {"common"}}},
 		res:    nil,
 		w:      responseWriter{},
 	}
 	h := w.Header()
-	if !reflect.DeepEqual(h, http.Header{"name": {"kratos"}}) {
-		t.Errorf("expected %v, got %v", http.Header{"name": {"kratos"}}, h)
+	if !reflect.DeepEqual(h, http.Header{"name": {"common"}}) {
+		t.Errorf("expected %v, got %v", http.Header{"name": {"common"}}, h)
 	}
 }
 
 func TestContextForm(t *testing.T) {
 	w := wrapper{
 		router: nil,
-		req:    &http.Request{Header: map[string][]string{"name": {"kratos"}}, Method: "POST"},
+		req:    &http.Request{Header: map[string][]string{"name": {"common"}}, Method: "POST"},
 		res:    nil,
 		w:      responseWriter{},
 	}
@@ -38,20 +38,20 @@ func TestContextForm(t *testing.T) {
 
 	w = wrapper{
 		router: nil,
-		req:    &http.Request{Form: map[string][]string{"name": {"kratos"}}},
+		req:    &http.Request{Form: map[string][]string{"name": {"common"}}},
 		res:    nil,
 		w:      responseWriter{},
 	}
 	form = w.Form()
-	if !reflect.DeepEqual(form, url.Values{"name": {"kratos"}}) {
-		t.Errorf("expected %v, got %v", url.Values{"name": {"kratos"}}, form)
+	if !reflect.DeepEqual(form, url.Values{"name": {"common"}}) {
+		t.Errorf("expected %v, got %v", url.Values{"name": {"common"}}, form)
 	}
 }
 
 func TestContextQuery(t *testing.T) {
 	w := wrapper{
 		router: nil,
-		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "github.com", Path: "go-kratos/kratos", RawQuery: "page=1"}, Method: "POST"},
+		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "github.com", Path: "go-common/common", RawQuery: "page=1"}, Method: "POST"},
 		res:    nil,
 		w:      responseWriter{},
 	}
@@ -95,7 +95,7 @@ func TestContextResponse(t *testing.T) {
 func TestContextBindQuery(t *testing.T) {
 	w := wrapper{
 		router: nil,
-		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "go-kratos-dev", RawQuery: "page=2"}},
+		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "go-common-dev", RawQuery: "page=2"}},
 		res:    nil,
 		w:      responseWriter{},
 	}
@@ -115,7 +115,7 @@ func TestContextBindQuery(t *testing.T) {
 func TestContextBindForm(t *testing.T) {
 	w := wrapper{
 		router: nil,
-		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "go-kratos-dev"}, Form: map[string][]string{"page": {"2"}}},
+		req:    &http.Request{URL: &url.URL{Scheme: "https", Host: "go-common-dev"}, Form: map[string][]string{"page": {"2"}}},
 		res:    nil,
 		w:      responseWriter{},
 	}

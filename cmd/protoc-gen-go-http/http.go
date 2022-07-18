@@ -22,7 +22,7 @@ const (
 
 var methodSets = make(map[string]int)
 
-// generateFile generates a _http.pb.go file containing kratos errors definitions.
+// generateFile generates a _http.pb.go file containing common errors definitions.
 func generateFile(gen *protogen.Plugin, file *protogen.File, omitempty bool) *protogen.GeneratedFile {
 	if len(file.Services) == 0 || (omitempty && !hasHTTPRule(file.Services)) {
 		return nil
@@ -45,7 +45,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, omitempty bool) *pr
 	return g
 }
 
-// generateFileContent generates the kratos errors definitions, excluding the package statement.
+// generateFileContent generates the common errors definitions, excluding the package statement.
 func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, omitempty bool) {
 	if len(file.Services) == 0 {
 		return

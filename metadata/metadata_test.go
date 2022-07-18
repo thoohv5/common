@@ -17,13 +17,13 @@ func TestNew(t *testing.T) {
 	}{
 		{
 			name: "hello",
-			args: args{[]map[string]string{{"hello": "kratos"}, {"hello2": "go-kratos"}}},
-			want: Metadata{"hello": "kratos", "hello2": "go-kratos"},
+			args: args{[]map[string]string{{"hello": "common"}, {"hello2": "go-common"}}},
+			want: Metadata{"hello": "common", "hello2": "go-common"},
 		},
 		{
 			name: "hi",
-			args: args{[]map[string]string{{"hi": "kratos"}, {"hi2": "go-kratos"}}},
-			want: Metadata{"hi": "kratos", "hi2": "go-kratos"},
+			args: args{[]map[string]string{{"hi": "common"}, {"hi2": "go-common"}}},
+			want: Metadata{"hi": "common", "hi2": "go-common"},
 		},
 	}
 	for _, tt := range tests {
@@ -46,14 +46,14 @@ func TestMetadata_Get(t *testing.T) {
 		want string
 	}{
 		{
-			name: "kratos",
-			m:    Metadata{"kratos": "value", "env": "dev"},
-			args: args{key: "kratos"},
+			name: "common",
+			m:    Metadata{"common": "value", "env": "dev"},
+			args: args{key: "common"},
 			want: "value",
 		},
 		{
 			name: "env",
-			m:    Metadata{"kratos": "value", "env": "dev"},
+			m:    Metadata{"common": "value", "env": "dev"},
 			args: args{key: "env"},
 			want: "dev",
 		},
@@ -79,16 +79,16 @@ func TestMetadata_Set(t *testing.T) {
 		want Metadata
 	}{
 		{
-			name: "kratos",
+			name: "common",
 			m:    Metadata{},
-			args: args{key: "hello", value: "kratos"},
-			want: Metadata{"hello": "kratos"},
+			args: args{key: "hello", value: "common"},
+			want: Metadata{"hello": "common"},
 		},
 		{
 			name: "env",
-			m:    Metadata{"hello": "kratos"},
+			m:    Metadata{"hello": "common"},
 			args: args{key: "env", value: "pro"},
-			want: Metadata{"hello": "kratos", "env": "pro"},
+			want: Metadata{"hello": "common", "env": "pro"},
 		},
 		{
 			name: "empty",
@@ -117,12 +117,12 @@ func TestClientContext(t *testing.T) {
 		args args
 	}{
 		{
-			name: "kratos",
-			args: args{context.Background(), Metadata{"hello": "kratos", "kratos": "https://go-kratos.dev"}},
+			name: "common",
+			args: args{context.Background(), Metadata{"hello": "common", "common": "https://go-common.dev"}},
 		},
 		{
 			name: "hello",
-			args: args{context.Background(), Metadata{"hello": "kratos", "hello2": "https://go-kratos.dev"}},
+			args: args{context.Background(), Metadata{"hello": "common", "hello2": "https://go-common.dev"}},
 		},
 	}
 	for _, tt := range tests {
@@ -150,12 +150,12 @@ func TestServerContext(t *testing.T) {
 		args args
 	}{
 		{
-			name: "kratos",
-			args: args{context.Background(), Metadata{"hello": "kratos", "kratos": "https://go-kratos.dev"}},
+			name: "common",
+			args: args{context.Background(), Metadata{"hello": "common", "common": "https://go-common.dev"}},
 		},
 		{
 			name: "hello",
-			args: args{context.Background(), Metadata{"hello": "kratos", "hello2": "https://go-kratos.dev"}},
+			args: args{context.Background(), Metadata{"hello": "common", "hello2": "https://go-common.dev"}},
 		},
 	}
 	for _, tt := range tests {
@@ -184,14 +184,14 @@ func TestAppendToClientContext(t *testing.T) {
 		want Metadata
 	}{
 		{
-			name: "kratos",
-			args: args{Metadata{}, []string{"hello", "kratos", "env", "dev"}},
-			want: Metadata{"hello": "kratos", "env": "dev"},
+			name: "common",
+			args: args{Metadata{}, []string{"hello", "common", "env", "dev"}},
+			want: Metadata{"hello": "common", "env": "dev"},
 		},
 		{
 			name: "hello",
-			args: args{Metadata{"hi": "https://go-kratos.dev/"}, []string{"hello", "kratos", "env", "dev"}},
-			want: Metadata{"hello": "kratos", "env": "dev", "hi": "https://go-kratos.dev/"},
+			args: args{Metadata{"hi": "https://go-common.dev/"}, []string{"hello", "common", "env", "dev"}},
+			want: Metadata{"hello": "common", "env": "dev", "hi": "https://go-common.dev/"},
 		},
 	}
 	for _, tt := range tests {
@@ -211,7 +211,7 @@ func TestAppendToClientContext(t *testing.T) {
 
 // nolint directives: sa5012
 func TestAppendToClientContextThatPanics(t *testing.T) {
-	kvs := []string{"hello", "kratos", "env"}
+	kvs := []string{"hello", "common", "env"}
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("append to client context singular kvs did not panic")
@@ -239,14 +239,14 @@ func TestMergeToClientContext(t *testing.T) {
 		want Metadata
 	}{
 		{
-			name: "kratos",
-			args: args{Metadata{}, Metadata{"hello": "kratos", "env": "dev"}},
-			want: Metadata{"hello": "kratos", "env": "dev"},
+			name: "common",
+			args: args{Metadata{}, Metadata{"hello": "common", "env": "dev"}},
+			want: Metadata{"hello": "common", "env": "dev"},
 		},
 		{
 			name: "hello",
-			args: args{Metadata{"hi": "https://go-kratos.dev/"}, Metadata{"hello": "kratos", "env": "dev"}},
-			want: Metadata{"hello": "kratos", "env": "dev", "hi": "https://go-kratos.dev/"},
+			args: args{Metadata{"hi": "https://go-common.dev/"}, Metadata{"hello": "common", "env": "dev"}},
+			want: Metadata{"hello": "common", "env": "dev", "hi": "https://go-common.dev/"},
 		},
 	}
 	for _, tt := range tests {
@@ -265,16 +265,16 @@ func TestMergeToClientContext(t *testing.T) {
 }
 
 func TestMetadata_Range(t *testing.T) {
-	md := Metadata{"kratos": "kratos", "https://go-kratos.dev/": "https://go-kratos.dev/", "go-kratos": "go-kratos"}
+	md := Metadata{"common": "common", "https://go-common.dev/": "https://go-common.dev/", "go-common": "go-common"}
 	tmp := Metadata{}
 	md.Range(func(k, v string) bool {
-		if k == "https://go-kratos.dev/" || k == "kratos" {
+		if k == "https://go-common.dev/" || k == "common" {
 			tmp[k] = v
 		}
 		return true
 	})
-	if !reflect.DeepEqual(tmp, Metadata{"https://go-kratos.dev/": "https://go-kratos.dev/", "kratos": "kratos"}) {
-		t.Errorf("metadata = %v, want %v", tmp, Metadata{"https://go-kratos.dev/": "https://go-kratos.dev/", "kratos": "kratos"})
+	if !reflect.DeepEqual(tmp, Metadata{"https://go-common.dev/": "https://go-common.dev/", "common": "common"}) {
+		t.Errorf("metadata = %v, want %v", tmp, Metadata{"https://go-common.dev/": "https://go-common.dev/", "common": "common"})
 	}
 	tmp = Metadata{}
 	md.Range(func(k, v string) bool {
@@ -292,9 +292,9 @@ func TestMetadata_Clone(t *testing.T) {
 		want Metadata
 	}{
 		{
-			name: "kratos",
-			m:    Metadata{"kratos": "kratos", "https://go-kratos.dev/": "https://go-kratos.dev/", "go-kratos": "go-kratos"},
-			want: Metadata{"kratos": "kratos", "https://go-kratos.dev/": "https://go-kratos.dev/", "go-kratos": "go-kratos"},
+			name: "common",
+			m:    Metadata{"common": "common", "https://go-common.dev/": "https://go-common.dev/", "go-common": "go-common"},
+			want: Metadata{"common": "common", "https://go-common.dev/": "https://go-common.dev/", "go-common": "go-common"},
 		},
 		{
 			name: "go",
@@ -308,7 +308,7 @@ func TestMetadata_Clone(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Clone() = %v, want %v", got, tt.want)
 			}
-			got["kratos"] = "go"
+			got["common"] = "go"
 			if reflect.DeepEqual(got, tt.want) {
 				t.Errorf("want got != want got %v want %v", got, tt.want)
 			}
