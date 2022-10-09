@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	// init encoding
+	_ "github.com/thoohv5/common/encoding/csv"
 	_ "github.com/thoohv5/common/encoding/form"
 	_ "github.com/thoohv5/common/encoding/json"
 	_ "github.com/thoohv5/common/encoding/proto"

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package csv;
+
+option go_package = "github.com/thoohv5/common/csv;csv";
+
+import "google/protobuf/descriptor.proto";
+
+// 返回值
+message Response {
+	// csv 列名
+	Row title = 3;
+	// csv 内容
+	repeated Row content = 4;
+}
+
+// 行
+message Row {
+	// 单元
+	repeated string cell = 1;
+}
