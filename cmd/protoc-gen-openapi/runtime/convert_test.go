@@ -3,10 +3,11 @@ package runtime_test
 import (
 	"testing"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 )
 
 func TestConvertTimestamp(t *testing.T) {

@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/utilities"
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -20,6 +19,8 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/utilities"
 )
 
 var valuesKeyRegexp = regexp.MustCompile(`^(.*)\[(.*)\]$`)

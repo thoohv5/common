@@ -8,11 +8,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
-	pb "github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
+	pb "github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 )
 
 type fakeReponseBodyWrapper struct {

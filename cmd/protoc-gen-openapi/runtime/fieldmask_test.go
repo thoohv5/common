@@ -7,10 +7,11 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 )
 
 func newFieldMask(paths ...string) *field_mask.FieldMask {

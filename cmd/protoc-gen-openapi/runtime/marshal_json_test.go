@@ -8,13 +8,14 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 )
 
 func TestJSONBuiltinMarshal(t *testing.T) {

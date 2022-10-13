@@ -9,11 +9,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	statuspb "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 )
 
 func TestDefaultHTTPError(t *testing.T) {

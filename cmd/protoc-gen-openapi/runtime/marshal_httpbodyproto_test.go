@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 	"google.golang.org/genproto/googleapis/api/httpbody"
 	"google.golang.org/protobuf/encoding/protojson"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 )
 
 func TestHTTPBodyContentType(t *testing.T) {

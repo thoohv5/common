@@ -6,8 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/utilities"
 	"google.golang.org/grpc/grpclog"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/utilities"
 )
 
 var (

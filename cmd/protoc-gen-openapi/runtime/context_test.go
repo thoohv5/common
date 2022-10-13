@@ -8,8 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 	"google.golang.org/grpc/metadata"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
 )
 
 const (

@@ -6,10 +6,11 @@ import (
 	"regexp"
 	"strings"
 
+	"google.golang.org/protobuf/reflect/protoreflect"
+
 	"github.com/thoohv5/common/encoding/form"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
 // EncodeURL encode proto message to url path.

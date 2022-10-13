@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
-	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime"
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/runtime/internal/examplepb"
 )
 
 var message = &examplepb.ABitOfEverything{
