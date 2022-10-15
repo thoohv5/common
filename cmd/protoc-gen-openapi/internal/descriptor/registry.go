@@ -9,6 +9,7 @@ import (
 	"golang.org/x/text/language"
 	"google.golang.org/genproto/googleapis/api/annotations"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
 
@@ -725,6 +726,9 @@ func (r *Registry) GetOpenAPIFieldOption(qualifiedField string) (*options.JSONSc
 }
 
 func (r *Registry) FieldName(f *Field) string {
+	if jsonTag := proto.GetExtension(f.Options, options.E_Jsontag).(string); len(jsonTag) > 0 {
+		return jsonTag
+	}
 	if r.useJSONNamesForFields {
 		return f.GetJsonName()
 	}

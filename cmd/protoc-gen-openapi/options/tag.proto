@@ -1,0 +1,25 @@
+// plugin/interceptor/options/tag.proto
+
+syntax = "proto3";
+
+package tag;
+
+option go_package = "github.com/thoohv5/protobuf-go/plugin/tag/options";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+	bool nullable = 65001;
+	bool embed = 65002;
+	string customtype = 65003;
+	string customname = 65004;
+	string jsontag = 65005;
+	string moretags = 65006;
+	string casttype = 65007;
+	string castkey = 65008;
+	string castvalue = 65009;
+	
+	bool stdtime = 65010;
+	bool stdduration = 65011;
+	bool wktpointer = 65012;
+}
