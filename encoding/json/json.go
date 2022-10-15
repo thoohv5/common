@@ -35,8 +35,8 @@ func (codec) Marshal(v interface{}) ([]byte, error) {
 	switch m := v.(type) {
 	case json.Marshaler:
 		return m.MarshalJSON()
-	case proto.Message:
-		return MarshalOptions.Marshal(m)
+	// case proto.Message:
+	// 	return MarshalOptions.Marshal(m)
 	default:
 		return json.Marshal(m)
 	}
@@ -46,8 +46,8 @@ func (codec) Unmarshal(data []byte, v interface{}) error {
 	switch m := v.(type) {
 	case json.Unmarshaler:
 		return m.UnmarshalJSON(data)
-	case proto.Message:
-		return UnmarshalOptions.Unmarshal(data, m)
+	// case proto.Message:
+	// 	return UnmarshalOptions.Unmarshal(data, m)
 	default:
 		rv := reflect.ValueOf(v)
 		for rv := rv; rv.Kind() == reflect.Ptr; {
