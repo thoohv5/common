@@ -1,6 +1,7 @@
 package form
 
 import (
+	"bytes"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -24,7 +25,9 @@ import (
 // DecodeValues decode url value into proto message.
 func DecodeValues(msg proto.Message, values url.Values) error {
 	for key, values := range values {
-		if err := populateFieldValues(msg.ProtoReflect(), strings.Split(key, "."), values); err != nil {
+		if err := populateFieldValues(msg.ProtoReflect(), strings.FieldsFunc(key, func(r rune) bool {
+			return bytes.ContainsRune([]byte{'.', '[', ']'}, r)
+		}), values); err != nil {
 			return err
 		}
 	}
