@@ -22,6 +22,12 @@ func Error{{ .CamelValue }}(format string, args ...interface{}) *errors.Error {
 	 return errors.New({{ .HTTPCode }}, {{ .Name }}_{{ .Value }}.String(), fmt.Sprintf(format, args...))
 }
 
+{{ if .HasMessage }}
+func ErrorDefault{{ .CamelValue }}(args ...interface{}) *errors.Error {
+	 return errors.New({{ .HTTPCode }}, {{ .Name }}_{{ .Value }}.String(), fmt.Sprintf("{{ .Message }}", args...))
+}
+{{ end }}
+
 {{- end }}
 `
 
@@ -32,6 +38,8 @@ type errorInfo struct {
 	CamelValue string
 	Comment    string
 	HasComment bool
+	Message    string
+	HasMessage bool
 }
 
 type errorWrapper struct {

@@ -89,6 +89,13 @@ func genErrorsReason(gen *protogen.Plugin, file *protogen.File, g *protogen.Gene
 			comment = v.Comments.Trailing.String()
 		}
 
+		message := ""
+		if len(comment) > 0 {
+			message = strings.TrimFunc(comment, func(r rune) bool {
+				return r == '/' || r == ' ' || r == '\n'
+			})
+		}
+
 		err := &errorInfo{
 			Name:       string(enum.Desc.Name()),
 			Value:      string(v.Desc.Name()),
@@ -96,6 +103,8 @@ func genErrorsReason(gen *protogen.Plugin, file *protogen.File, g *protogen.Gene
 			HTTPCode:   enumCode,
 			Comment:    comment,
 			HasComment: len(comment) > 0,
+			Message:    message,
+			HasMessage: len(message) > 0,
 		}
 		ew.Errors = append(ew.Errors, err)
 	}

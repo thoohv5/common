@@ -149,3 +149,10 @@ func FromError(err error) *Error {
 	}
 	return ret
 }
+
+func ToError(err error, eErr *Error) error {
+	if se := new(Error); errors.As(err, &se) {
+		return se
+	}
+	return eErr
+}
