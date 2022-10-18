@@ -20,10 +20,27 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
+
+	"github.com/thoohv5/common/cmd/protoc-gen-openapi/options"
 )
 
 // DecodeValues decode url value into proto message.
 func DecodeValues(msg proto.Message, values url.Values) error {
+	//
+	fields := msg.ProtoReflect().Descriptor().Fields()
+	for i := 0; i < fields.Len(); i++ {
+		field := fields.Get(i)
+		moreTag := proto.GetExtension(field.Options(), options.E_Moretags).(string)
+		if len(moreTag) == 0 {
+			continue
+		}
+		for _, tag := range strings.Split(moreTag, " ") {
+			tagList := strings.Split(tag, ":")
+			optional := strings.Split(tagList[1], ",")
+			defaultValues := strings.Split(optional[1], "=")
+			populateField(field, msg.ProtoReflect(), defaultValues[1])
+		}
+	}
 	for key, values := range values {
 		if err := populateFieldValues(msg.ProtoReflect(), strings.FieldsFunc(key, func(r rune) bool {
 			return bytes.ContainsRune([]byte{'.', '[', ']'}, r)
