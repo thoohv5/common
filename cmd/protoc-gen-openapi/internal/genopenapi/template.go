@@ -1511,6 +1511,11 @@ func renderServices(services []*descriptor.Service, paths openapiPathsObject, re
 						copy(operationObject.Produces, opts.Produces)
 					}
 
+					if len(opts.Consumes) > 0 {
+						operationObject.Consumes = make([]string, len(opts.Consumes))
+						copy(operationObject.Consumes, opts.Consumes)
+					}
+
 					// TODO(ivucica): add remaining fields of operation object
 				}
 
