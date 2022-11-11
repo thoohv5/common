@@ -30,6 +30,39 @@ func DecodeValues(msg proto.Message, values url.Values) error {
 	fields := msg.ProtoReflect().Descriptor().Fields()
 	for i := 0; i < fields.Len(); i++ {
 		field := fields.Get(i)
+
+		flag := false
+		if field.IsPacked() {
+			fv := msg.ProtoReflect().Get(field)
+			if fv.List().Len() != 0 {
+				flag = true
+			}
+		} else {
+			switch field.Kind() {
+			case protoreflect.Uint32Kind, protoreflect.Uint64Kind:
+				fv := msg.ProtoReflect().Get(field)
+				if fv.Uint() != 0 {
+					flag = true
+				}
+			case protoreflect.Int32Kind, protoreflect.Int64Kind:
+				fv := msg.ProtoReflect().Get(field)
+				if fv.Int() != 0 {
+					flag = true
+				}
+			case protoreflect.StringKind:
+				fv := msg.ProtoReflect().Get(field)
+				if len(fv.String()) == 0 {
+					flag = true
+				}
+			}
+		}
+
+		if flag {
+			continue
+		}
+
+		// fmt.Println(field.Name())
+
 		moreTag := proto.GetExtension(field.Options(), options.E_Moretags).(string)
 		if len(moreTag) == 0 {
 			continue
@@ -38,7 +71,10 @@ func DecodeValues(msg proto.Message, values url.Values) error {
 			tagList := strings.Split(tag, ":")
 			optional := strings.Split(tagList[1], ",")
 			defaultValues := strings.Split(optional[1], "=")
-			populateField(field, msg.ProtoReflect(), defaultValues[1])
+			err := populateField(field, msg.ProtoReflect(), defaultValues[1])
+			if err != nil {
+				return err
+			}
 		}
 	}
 	for key, values := range values {
