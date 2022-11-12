@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package csv;
 
-option go_package = "github.com/thoohv5/common/csv;csv";
+option go_package = "github.com/thoohv5/common/encoding/csv;csv";
 
 import "google/protobuf/descriptor.proto";
 
 // 返回值
 message Response {
+	// csv 名称
+	string name = 2;
 	// csv 列名
 	Row title = 3;
 	// csv 内容

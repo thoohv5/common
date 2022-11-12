@@ -5,7 +5,6 @@ import (
 	"encoding/csv"
 	"errors"
 
-	cCsv "github.com/thoohv5/common/csv"
 	"github.com/thoohv5/common/encoding"
 )
 
@@ -29,7 +28,7 @@ func (codec) Marshal(v interface{}) ([]byte, error) {
 	bytesBuffer.WriteString("\xEF\xBB\xBF")
 	writer := csv.NewWriter(bytesBuffer)
 
-	csvResp, ok := v.(*cCsv.Response)
+	csvResp, ok := v.(*Response)
 	if !ok {
 		return nil, ErrInvalid
 	}
