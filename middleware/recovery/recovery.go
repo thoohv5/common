@@ -55,7 +55,11 @@ func Recovery(opts ...Option) middleware.Middleware {
 					buf := make([]byte, 64<<10) //nolint:gomnd
 					n := runtime.Stack(buf, false)
 					buf = buf[:n]
-					op.logger.Errorc(ctx, "%v: %+v\n%s\n", rerr, req, buf)
+					op.logger.Errorc(ctx, "异常崩溃", func(fs log.IFields) {
+						fs.Set("错误", rerr)
+						fs.Set("请求\n", req)
+						fs.Set("堆栈\n", buf)
+					})
 
 					err = op.handler(ctx, req, rerr)
 				}

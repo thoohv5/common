@@ -32,14 +32,16 @@ func Server(logger log.Logger) middleware.Middleware {
 				reason = se.Reason
 			}
 			logger.Debugc(ctx, "middleware",
-				"kind", "server",
-				"component", kind,
-				"operation", operation,
-				"args", extractArgs(req),
-				"code", code,
-				"reason", reason,
-				"stack", fmt.Sprintf("%+v", err),
-				"latency", time.Since(startTime).Seconds(),
+				func(fs log.IFields) {
+					fs.Set("kind", "server")
+					fs.Set("component", kind)
+					fs.Set("operation", operation)
+					fs.Set("args", extractArgs(req))
+					fs.Set("code", code)
+					fs.Set("reason", reason)
+					fs.Set("stack", fmt.Sprintf("%+v", err))
+					fs.Set("latency", time.Since(startTime).Seconds())
+				},
 			)
 			return
 		}
@@ -67,14 +69,16 @@ func Client(logger log.Logger) middleware.Middleware {
 				reason = se.Reason
 			}
 			logger.Debugc(ctx, "middleware",
-				"kind", "client",
-				"component", kind,
-				"operation", operation,
-				"args", extractArgs(req),
-				"code", code,
-				"reason", reason,
-				"stack", fmt.Sprintf("%+v", err),
-				"latency", time.Since(startTime).Seconds(),
+				func(fs log.IFields) {
+					fs.Set("kind", "client")
+					fs.Set("component", kind)
+					fs.Set("operation", operation)
+					fs.Set("args", extractArgs(req))
+					fs.Set("code", code)
+					fs.Set("reason", reason)
+					fs.Set("stack", fmt.Sprintf("%+v", err))
+					fs.Set("latency", time.Since(startTime).Seconds())
+				},
 			)
 			return
 		}
